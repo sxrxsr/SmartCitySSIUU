@@ -4,7 +4,7 @@ var router = express.Router();
 var debug = require("debug")("moviesApp:server");
 
 //Models
-var Movie = require("../models/Movie.js");
+var Movie = require("../models/Censo.js");
 
 mongoose.set("strictQuery", false);
 var db = mongoose.connection;
@@ -13,7 +13,7 @@ var db = mongoose.connection;
 router.get("/", function (req, res) {
   Movie.find().then(function (movies) {
     if (movies) {
-      debug("Movies found:", movies);
+      debug("censo found:", movies);
     } else {
       debug("No movies found.");
     }
