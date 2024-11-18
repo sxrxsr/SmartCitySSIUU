@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 const MONGODB_CLUSTER_URI = process.env.MONGODB_CLUSTER_URI;
 // Añade el nombre de tu base de datos al final de la URI
 const MONGODB_DATABASE_NAME = process.env.MONGODB_DATABASE_NAME;
-const fullURI = `${MONGODB_CLUSTER_URI}/${MONGODB_DATABASE_NAME}?retryWrites=true&w=majority&appName=ClusterSSIIUU`;
+const fullURI = `${MONGODB_CLUSTER_URI}/${MONGODB_DATABASE_NAME}?retryWrites=true&w=majority&appName=Cluster0`;
 
 // MongoDB Atlas DB cluster connection
 mongoose
