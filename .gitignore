@@ -1,2 +1,3 @@
 # archivos a ignorar
-# .env   #quitar comentario
+.env
+node_modules
