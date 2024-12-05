@@ -12,7 +12,7 @@ dotenv.config();
 var mongoose = require("mongoose");
 
 var indexRouter = require("./routes/index");
-var moviesRouter = require("./routes/censo");
+var censoRouter = require("./routes/censos");
 var bookmarksRouter = require("./routes/bookmarks");
 
 var usersRouter = require("./routes/users");
@@ -23,8 +23,8 @@ var bodyParser = require("body-parser");
 var cors = require("cors");
 
 app.use(cors());
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({limit: '600mb'}));
+app.use(bodyParser.urlencoded({limit: '600mb', extended: true}));
 
 const MONGODB_CLUSTER_URI = process.env.MONGODB_CLUSTER_URI;
 // Añade el nombre de tu base de datos al final de la URI
@@ -49,7 +49,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/movies", moviesRouter);
+app.use("/censos", censoRouter);
 app.use("/bookmarks", bookmarksRouter); 
 app.use("/users", usersRouter); 
 
