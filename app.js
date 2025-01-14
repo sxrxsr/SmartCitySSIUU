@@ -13,7 +13,7 @@ var mongoose = require("mongoose");
 
 var indexRouter = require("./routes/index");
 var censoRouter = require("./routes/censos");
-var bookmarksRouter = require("./routes/bookmarks");
+var felicidad_tristeza = require("./routes/felicidad_tristeza");
 
 var usersRouter = require("./routes/users");
 
@@ -50,7 +50,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/censos", censoRouter);
-app.use("/bookmarks", bookmarksRouter); 
+app.use("/felicidad_tristeza", felicidad_tristeza); 
 app.use("/users", usersRouter); 
 
 // catch 404 and forward to error handler

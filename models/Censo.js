@@ -12,7 +12,8 @@ var CensoSchema = new Schema({
   EspanolesHombres: Number,
   EspanolesMujeres: Number,
   ExtranjerosHombres: Number,
-  ExtranjerosMujeres: Number
+  ExtranjerosMujeres: Number,
+  Mes: String
 }); // El ObjectId está implícito
 module.exports = mongoose.model("Censo", CensoSchema); // define el modelo
 

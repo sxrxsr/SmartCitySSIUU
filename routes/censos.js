@@ -9,6 +9,22 @@ var Censo = require("../models/Censo.js");
 mongoose.set("strictQuery", false);
 var db = mongoose.connection;
 
+/* GET censo listing */
+router.get("/", function (req, res) {
+  Censo.find().then(function (censos) {
+    if (censos) {
+      debug("Censo found:", JSON.stringify(censos, null, 2));
+    } else {
+      debug("No censo found.");
+    }
+    res.status(200).json(censos);
+  }).catch(function (err) {
+    res.status(500).send(err);
+  });
+});
+
+
+
 /*Get paginado*/
 /* GET censo listing */
 router.get("/", function (req, res) {
@@ -101,19 +117,6 @@ router.get("/estadisticas", async function (req, res) {
   }
 });
 */
-/* GET censo listing */
-router.get("/", function (req, res) {
-  Censo.find().then(function (censos) {
-    if (censos) {
-      debug("Censo found:", JSON.stringify(censos, null, 2));
-    } else {
-      debug("No censo found.");
-    }
-    res.status(200).json(censos);
-  }).catch(function (err) {
-    res.status(500).send(err);
-  });
-});
 
 
 
