@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var ContenedoresSchema = new Schema({
+var ContenedoresUbicacionSchema = new Schema({
     "Código Interno del Situad": Number,
     "Tipo Contenedor": String,
     "Modelo": String,
@@ -19,5 +19,5 @@ var ContenedoresSchema = new Schema({
     "LATITUD": Number,
     "DIRECCION": String
 }); // El ObjectId está implícito
-module.exports = mongoose.model("Contenedores", ContenedoresSchema); // define el modelo
+module.exports = mongoose.model("ContenedorUbicacion", ContenedoresUbicacionSchema, "contenedoresUbicacion"); // define el modelo
 

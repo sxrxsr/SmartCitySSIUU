@@ -4,6 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var debug = require('debug')('moviesAppAuth:server');
+var cors = require("cors");
 
 const dotenv = require('dotenv');
 // get config vars
@@ -14,6 +15,7 @@ var mongoose = require("mongoose");
 var indexRouter = require("./routes/index");
 var censoRouter = require("./routes/censos");
 var felicidad_tristeza = require("./routes/felicidad_tristeza");
+var asco = require("./routes/asco");
 
 var usersRouter = require("./routes/users");
 
@@ -43,6 +45,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
 app.use(logger("dev"));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -52,6 +55,8 @@ app.use("/", indexRouter);
 app.use("/censos", censoRouter);
 app.use("/felicidad_tristeza", felicidad_tristeza); 
 app.use("/users", usersRouter); 
+app.use("/asco", asco); 
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
