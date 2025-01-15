@@ -9,7 +9,7 @@ var ContenedoresUbicacionSchema = new Schema({
     "Cantidad": Number,
     "Lote": String,
     "Distrito": String,
-    "Barrio": String,
+    "Barrio": Number,
     "Tipo Vía": String,
     "Nombre": String,
     "Número": Number,

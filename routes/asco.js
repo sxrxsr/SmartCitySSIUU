@@ -37,46 +37,56 @@ router.get("/coords", async (req, res) => {
     const contenedores = await ContenedorUbicacion.aggregate([
       {
         $match: {
-          LATITUD: { $exists: true, $ne: null }, // Asegurarse de que LATITUD exista
-          LONGITUD: { $exists: true, $ne: null } // Asegurarse de que LONGITUD exista
+          LATITUD: { $exists: true, $ne: null },
+          LONGITUD: { $exists: true, $ne: null },
+          Barrio: { $exists: true, $ne: "", $ne: 0 }
         }
       },
       {
-        $sort: { Barrio: 1 } // Opcional: Ordena por barrio
+        $addFields: {
+          Barrio: {
+            $cond: {
+              if: { $eq: ["$Barrio", 0] },
+              then: "Barrio Desconocido",
+              else: "$Barrio"
+            }
+          }
+        }
       },
       {
         $group: {
-          _id: "$Barrio", // Agrupa por barrio
+          _id: "$Barrio",
           contenedores: {
             $push: {
               LATITUD: "$LATITUD",
               LONGITUD: "$LONGITUD",
-              Distrito: "$Distrito", // Incluye Distrito
-              DIRECCION: "$DIRECCION" // Incluye Dirección
+              Distrito: "$Distrito",
+              DIRECCION: "$DIRECCION"
             }
           },
-          total: { $sum: 1 } // Cuenta el total de contenedores por barrio
+          total: { $sum: 1 }
         }
       },
       {
         $project: {
-          _id: 1,
-          muestra: { $slice: ["$contenedores", 10] } // Toma una muestra de 10 contenedores por barrio
+          Barrio: "$_id",
+          total: 1,
+          muestra: { $slice: ["$contenedores", 10] }
         }
       },
-      { $unwind: "$muestra" }, // Convierte la muestra en documentos individuales
+      { $unwind: "$muestra" },
       {
         $project: {
           LATITUD: "$muestra.LATITUD",
           LONGITUD: "$muestra.LONGITUD",
-          Distrito: "$muestra.Distrito", // Proyecto de Distrito
-          DIRECCION: "$muestra.DIRECCION", // Proyecto de Dirección
-          Barrio: "$_id",
-          total: 1 // Campo adicional
-          
+          Distrito: "$muestra.Distrito",
+          DIRECCION: "$muestra.DIRECCION",
+          Barrio: "$Barrio",
+          total: 1
         }
       }
     ]);
+    
 
     if (!contenedores || contenedores.length === 0) {
       debug("No se encontraron coordenadas de contenedores.");
