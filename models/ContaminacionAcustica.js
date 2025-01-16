@@ -4,15 +4,15 @@ var ContaminacionAcusticaSchema = new Schema({
     Fecha: Date,
     NMT: Number,
     Nombre: String,
-    Ld: mongoose.Types.Decimal128,
-    Le: mongoose.Types.Decimal128,
-    Ln: mongoose.Types.Decimal128,
-    LAeq24: mongoose.Types.Decimal128,
-    LAS01: mongoose.Types.Decimal128,
-    LAS10: mongoose.Types.Decimal128,
-    LAS50: mongoose.Types.Decimal128,
-    LAS90: mongoose.Types.Decimal128,
-    LAS99: mongoose.Types.Decimal128
+    Ld: Number,
+    Le: Number,
+    Ln: Number,
+    LAeq24: Number,
+    LAS01: Number,
+    LAS10: Number,
+    LAS50: Number,
+    LAS90: Number,
+    LAS99: Number
 },{ collection: 'contaminacionAcustica' }); // El ObjectId está implícito
 module.exports = mongoose.model("ContaminacionAcustica", ContaminacionAcusticaSchema); // define el modelo
 

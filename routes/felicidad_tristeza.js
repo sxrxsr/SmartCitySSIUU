@@ -53,7 +53,19 @@ async function calcularFelicidad() {
     },
     {
       $addFields: {
-        nivelRuido: { $ifNull: [{ $arrayElemAt: ["$contaminacion.Ld", 0] }, 0] },
+        nivelRuido: {
+          $avg: [
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.Ld", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.Le", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.Ln", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.LAeq24", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.LAS01", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.LAS10", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.LAS50", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.LAS90", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.LAS99", 0] }, 0] },
+          ],
+        },
         accidentesBarrio: { $size: "$accidentes" },
         multasBarrio: { $size: "$multas" },
         esJoven: {
@@ -78,17 +90,23 @@ async function calcularFelicidad() {
       $project: {
         barrio: "$_id",
         felicidad: {
-          $subtract: [
-            100,
+          $multiply: [
             {
-              $add: [
-                { $multiply: ["$nivelRuido", 0.3] },
-                { $multiply: ["$accidentesBarrio", 0.4] },
-                { $multiply: ["$multasBarrio", 0.2] },
-                { $multiply: [{ $multiply: ["$promedioJoven", 50] }, -1] },
+              $subtract: [
+                100,
+                {
+                  $add: [
+                    { $multiply: ["$nivelRuido", 0.2] },
+                    { $multiply: ["$accidentesBarrio", 0.3] },
+                    { $multiply: ["$multasBarrio", 0.1] },
+                    { $multiply: [{ $multiply: ["$promedioJoven", 20] }, -1] },
+                  ],
+                },
               ],
             },
+            1
           ],
+
         },
       },
     },
@@ -124,7 +142,19 @@ async function calcularTristeza() {
     },
     {
       $addFields: {
-        nivelRuido: { $ifNull: [{ $arrayElemAt: ["$contaminacion.Ln", 0] }, 0] },
+        nivelRuido: {
+          $avg: [
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.Ld", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.Le", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.Ln", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.LAeq24", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.LAS01", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.LAS10", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.LAS50", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.LAS90", 0] }, 0] },
+            { $ifNull: [{ $arrayElemAt: ["$contaminacion.LAS99", 0] }, 0] },
+          ],
+        },
         esJoven: {
           $cond: [
             { $and: [{ $gte: ["$muestra.COD_EDAD_INT", 18] }, { $lte: ["$muestra.COD_EDAD_INT", 30] }] },
@@ -145,17 +175,23 @@ async function calcularTristeza() {
       $project: {
         barrio: "$_id",
         tristeza: {
-          $add: [
-            { $multiply: ["$nivelRuido", 0.5] },
+          $multiply: [
             {
-              $multiply: [
-                { $subtract: [1, "$promedioJoven"] },
-                50,
+              $add: [
+                { $multiply: ["$nivelRuido", 2.2] },
+                {
+                  $multiply: [
+                    { $subtract: [1, "$promedioJoven"] },
+                    50,
+                  ],
+                },
               ],
             },
+            2.5
           ],
         },
       },
+
     },
   ]);
 }
@@ -306,46 +342,59 @@ router.get("/censo", function (req, res) {
 
 /* GET contaminacion acustica listing */
 router.get("/acustica", function (req, res) {
-    ContaminacionAcustica.find().then(function (acustica) {
-      if (acustica) {
-        debug("Contaminacion acustica found:");
-      } else {
-        debug("No Contaminacion acustica found.");
-      }
-      res.status(200).json(acustica);
-    }).catch(function (err) {
-      res.status(500).send(err);
-    });
+  ContaminacionAcustica.find().then(function (acustica) {
+    if (acustica) {
+      debug("Contaminacion acustica found:");
+    } else {
+      debug("No Contaminacion acustica found.");
+    }
+    res.status(200).json(acustica);
+  }).catch(function (err) {
+    res.status(500).send(err);
   });
-  
-  /* GET accidentalidad listing */
+});
+/* GET contaminacion acustica listing */
+router.get("/acustica/:id", function (req, res) {
+  ContaminacionAcustica.findById(req.params.id).then(function (acustica) {
+    if (acustica) {
+      debug("Contaminacion acustica found:");
+    } else {
+      debug("No Contaminacion acustica found.");
+    }
+    res.status(200).json(acustica);
+  }).catch(function (err) {
+    res.status(500).send(err);
+  });
+});
+
+/* GET accidentalidad listing */
 router.get("/accidentalidad", function (req, res) {
-    Accidentalidad.find().then(function (accidente) {
-      if (accidente) {
-        debug("Accidente found:");
-      } else {
-        debug("No Accidente found.");
-      }
-      res.status(200).json(accidente);
-    }).catch(function (err) {
-      res.status(500).send(err);
-    });
+  Accidentalidad.find().then(function (accidente) {
+    if (accidente) {
+      debug("Accidente found:");
+    } else {
+      debug("No Accidente found.");
+    }
+    res.status(200).json(accidente);
+  }).catch(function (err) {
+    res.status(500).send(err);
   });
+});
 /* GET multas listing */
 router.get("/multas", function (req, res) {
-    const limit = parseInt(req.query.limit) || 100000;
-  
-    Multas.find().limit(limit).then(function (multas) {
-      if (multas.length > 0) {
-        debug("Multas found:");
-      } else {
-        debug("No Multas found.");
-      }
-      res.status(200).json(multas);
-    }).catch(function (err) {
-      res.status(500).send(err);
-    });
+  const limit = parseInt(req.query.limit) || 100000;
+
+  Multas.find().limit(limit).then(function (multas) {
+    if (multas.length > 0) {
+      debug("Multas found:");
+    } else {
+      debug("No Multas found.");
+    }
+    res.status(200).json(multas);
+  }).catch(function (err) {
+    res.status(500).send(err);
   });
+});
 
 
 /*Get paginado*/
@@ -394,6 +443,7 @@ router.get("/", function (req, res) {
 
 
 const { Readable } = require("stream");
+const { urlToHttpOptions } = require("url");
 /*
 router.get("/estadisticas", async function (req, res) {
   try {
@@ -460,12 +510,12 @@ router.get("/:id", function (req, res) {
   });
 });
 */
- /* POST a new movie
+/* POST a new movie
 router.post("/", function (req, res) {
-  Censo.create(req.body, function (err, censoinfo) {
-    if (err) res.status(500).send(err);
-    else res.sendStatus(200);
-  });
+ Censo.create(req.body, function (err, censoinfo) {
+   if (err) res.status(500).send(err);
+   else res.sendStatus(200);
+ });
 });
 */
 /* POST a new movie (ahora conviene hacerlo todo con promesas) 
