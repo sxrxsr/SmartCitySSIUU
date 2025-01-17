@@ -17,6 +17,7 @@ var censoRouter = require("./routes/censos");
 var felicidad_tristeza = require("./routes/felicidad_tristeza");
 var asco = require("./routes/asco");
 var estres = require("./routes/estres");
+var ansiedad_confianza = require("./routes/ansiedad_confianza");
 
 var usersRouter = require("./routes/users");
 
@@ -57,7 +58,8 @@ app.use("/censos", censoRouter);
 app.use("/felicidad_tristeza", felicidad_tristeza); 
 app.use("/users", usersRouter); 
 app.use("/asco", asco); 
-app.use("/estres", estres); 
+app.use("/estres", estres);
+app.use("/ansiedad_confianza", ansiedad_confianza);
 
 
 // catch 404 and forward to error handler
