@@ -18,7 +18,6 @@ var felicidad_tristeza = require("./routes/felicidad_tristeza");
 var asco = require("./routes/asco");
 var estres = require("./routes/estres");
 
-var ansiedad_confianza = require("./routes/ansiedad_confianza");
 var multas = require("./routes/multas");
 var accidentalidad = require("./routes/accidentalidad");
 var contaminacionAcustica = require("./routes/contaminacion-acustica");
@@ -63,7 +62,6 @@ app.use("/felicidad_tristeza", felicidad_tristeza);
 app.use("/users", usersRouter); 
 app.use("/asco", asco); 
 app.use("/estres", estres);
-app.use("/ansiedad_confianza", ansiedad_confianza);
 app.use("/multas", multas); 
 app.use("/accidentalidad", accidentalidad); 
 app.use("/contaminacion-acustica", contaminacionAcustica); 
