@@ -4,8 +4,7 @@ var router = express.Router();
 var debug = require("debug")("censoApp:server");
 
 //Models
-var ContaminacionAcustica = require("../models/ContaminacionAcustica.js");
-var Accidentalidad = require("../models/Accidentalidad.js");
+
 var Ocupacion = require("../models/Aparcamientos.js");
 
 mongoose.set("strictQuery", false);

@@ -68,56 +68,6 @@ router.get("/", function (req, res) {
 });
 
 const { Readable } = require("stream");
-/*
-router.get("/estadisticas", async function (req, res) {
-  try {
-    const limit = parseInt(req.query.limit) || 10; // Tamaño de lote por defecto
-    let offset = 0; // Iniciar desde 0
-    let hasMoreData = true;
-
-    const estadisticas = {};
-
-    // Configurar headers para streaming
-    res.setHeader("Content-Type", "application/json");
-    res.setHeader("Transfer-Encoding", "chunked");
-
-    while (hasMoreData) {
-      // Recuperar lote de datos
-      const censos = await Censo.find().skip(offset).limit(limit);
-
-      if (censos.length > 0) {
-        censos.forEach((item) => {
-          const distrito = item.DESC_DISTRITO;
-          // Inicializar acumuladores si no existen
-          if (!estadisticas[distrito]) {
-            estadisticas[distrito] = { distrito, espanolesHombres: 0, espanolesMujeres: 0 };
-          }
-
-          // Acumular valores
-          estadisticas[distrito].espanolesHombres += item.EspanolesHombres || 0;
-          estadisticas[distrito].espanolesMujeres += item.EspanolesMujeres || 0;
-        });
-
-        // Enviar los datos actuales
-        res.write(JSON.stringify(Object.values(estadisticas)) + "\n");
-
-        // Incrementar el offset
-        offset += limit;
-      } else {
-        // No hay más datos, terminar el bucle
-        hasMoreData = false;
-      }
-    }
-
-    // Finalizar el stream
-    res.end();
-  } catch (err) {
-    console.error("Error al procesar estadísticas:", err);
-    res.status(500).send("Error al procesar estadísticas.");
-  }
-});
-*/
-
 
 
 /* GET single Censo by Id */
@@ -134,21 +84,5 @@ router.get("/:id", function (req, res) {
   });
 });
 
-// /* POST a new movie*/
-router.post("/", function (req, res) {
-  Censo.create(req.body, function (err, censoinfo) {
-    if (err) res.status(500).send(err);
-    else res.sendStatus(200);
-  });
-});
-
-/* POST a new movie (ahora conviene hacerlo todo con promesas) 
-router.post("/", function (req, res) {
-  Censo.create(req.body).then(function (censos) {
-    res.status(201).json(censos);
-  }).catch(function (err) {
-    res.status(500).send(err);
-  });
-});*/
 
 module.exports = router;

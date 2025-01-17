@@ -22,8 +22,6 @@ var multas = require("./routes/multas");
 var accidentalidad = require("./routes/accidentalidad");
 var contaminacionAcustica = require("./routes/contaminacion-acustica");
 
-var usersRouter = require("./routes/users");
-
 var app = express();
 
 var bodyParser = require("body-parser");
@@ -59,7 +57,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/censos", censoRouter);
 app.use("/felicidad_tristeza", felicidad_tristeza); 
-app.use("/users", usersRouter); 
 app.use("/asco", asco); 
 app.use("/estres", estres);
 app.use("/multas", multas); 

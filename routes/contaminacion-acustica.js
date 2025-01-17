@@ -1,7 +1,7 @@
 var express = require("express");
 var mongoose = require("mongoose");
 var router = express.Router();
-var debug = require("debug")("multasAccidentesApp:server");
+var debug = require("debug")("acusticaApp:server");
 
 // Importar el modelo
 var ContaminacionAcustica = require("../models/ContaminacionAcustica.js");

@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
               then: {
                 $convert: { input: "$fecha", to: "date", onError: null, onNull: null }
               },
-              else: null, // Mantener nulo si no es convertible
+              else: null, 
             },
           },
         },

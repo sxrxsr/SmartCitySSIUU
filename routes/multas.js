@@ -31,26 +31,25 @@ router.get("/", async (req, res) => {
 
     // Agregación en MongoDB
     const multas = await Multas.aggregate([
-      // Asegura que los valores nulos o inexistentes en PUNTOS se traten como 0
       {
         $addFields: {
-          normalizedPoints: { $ifNull: ["$PUNTOS", 0] }, // Si PUNTOS es null, usar 0
+          normalizedPoints: { $ifNull: ["$PUNTOS", 0] }, 
           numericMonth: {
             $switch: {
               branches: Object.entries(monthMap).map(([month, num]) => ({
                 case: { $eq: ["$MES", month] },
                 then: num,
               })),
-              default: "$MES", // Si MES ya es un número, mantenerlo
+              default: "$MES",
             },
           },
         },
       },
-      // Agrupar por mes y año
+
       {
         $group: {
           _id: { month: "$numericMonth" },
-          avgPoints: { $avg: "$normalizedPoints" }, // Calcular promedio usando normalizedPoints
+          avgPoints: { $avg: "$normalizedPoints" }, // Promedio de puntos
           totalFines: { $sum: 1 }, // Número total de multas
         },
       },
@@ -63,7 +62,7 @@ router.get("/", async (req, res) => {
           _id: 0,
         },
       },
-      // Ordenar por año y mes
+      
       { $sort: { month: 1 } },
     ]);
 
