@@ -16,6 +16,7 @@ var indexRouter = require("./routes/index");
 var censoRouter = require("./routes/censos");
 var felicidad_tristeza = require("./routes/felicidad_tristeza");
 var asco = require("./routes/asco");
+var estres = require("./routes/estres");
 
 var usersRouter = require("./routes/users");
 
@@ -56,6 +57,7 @@ app.use("/censos", censoRouter);
 app.use("/felicidad_tristeza", felicidad_tristeza); 
 app.use("/users", usersRouter); 
 app.use("/asco", asco); 
+app.use("/estres", estres); 
 
 
 // catch 404 and forward to error handler
