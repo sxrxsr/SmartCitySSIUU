@@ -17,7 +17,9 @@ var censoRouter = require("./routes/censos");
 var felicidad_tristeza = require("./routes/felicidad_tristeza");
 var asco = require("./routes/asco");
 var estres = require("./routes/estres");
-var tranquilidad = require("./routes/tranquilidad");
+var multas = require("./routes/multas");
+var accidentalidad = require("./routes/accidentalidad");
+var contaminacionAcustica = require("./routes/contaminacion-acustica");
 
 var usersRouter = require("./routes/users");
 
@@ -59,7 +61,9 @@ app.use("/felicidad_tristeza", felicidad_tristeza);
 app.use("/users", usersRouter); 
 app.use("/asco", asco); 
 app.use("/estres", estres); 
-app.use("/tranquilidad", tranquilidad); 
+app.use("/multas", multas); 
+app.use("/accidentalidad", accidentalidad); 
+app.use("/contaminacion-acustica", contaminacionAcustica); 
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
